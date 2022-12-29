@@ -67,17 +67,21 @@ function createGrid (resolution) {
     // The problem with this is that if "security" measures are not set in place, the grid will be distorted, causing several grid cells to be displayed out of place, ruining the grid.
     
     // So, to solve this caveat, the proportions are set to the division mentioned earlier, thus essentially setting the proportions of the container to a min/max percentage of the page. The + 1 accounts for small percentage changes that are needed, as results with dividing 100% are not exact.
+
+    // This border correction is to subtract from the right side border of the grid without distorting the whole order of things. And the (borderCorrection/resolution * 101) just helps approximate the right border.
+    let borderCorrection = 0.009120000;
+    
     if (resolution === 1) {
         gridContainer.style.minWidth = `${resBaseline}%`;
         gridContainer.style.maxWidth = `${resBaseline}%`;
         gridContainer.style.minHeight = `${resBaseline}%`;
         gridContainer.style.maxHeight = `${resBaseline}%`;
     } else {
-        gridContainer.style.minWidth = `${((resBaseline + 1) / resolution)}%`;
+        gridContainer.style.minWidth = `${((resBaseline + 1) / resolution) - (borderCorrection/resolution * 101)}%`;
         gridContainer.style.maxWidth = `${((resBaseline + 1) / resolution)}%`;
     }
 
     
 };
 
-createGrid(32);
+createGrid(64);
