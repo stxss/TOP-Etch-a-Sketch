@@ -17,6 +17,7 @@ bigContainer.style.flex = "0 0 auto";
 // Setting the properties of the gridContainer, making it a flex container and setting it up to set its fixed proportions later
 gridContainer.style.position = "relative"
 gridContainer.style.display = "flex";
+gridContainer.style.justifyContent = "center";
 gridContainer.style.flexWrap = "wrap";
 gridContainer.style.flex = "0 0";
 
@@ -26,7 +27,13 @@ function createGrid (resolution) {
         const square = document.createElement("div");
         square.classList.add("square");
 
-        square.style.border = "1px solid lightgrey";
+        // Giving the squares only the top left borders and the grid container (the big box), the right and bottom, the effect of the borders "compounding" and creating a thicker look is avoided. So basically this is a way of creating thinner borders, sort of bypassing the inability to create borders that are thinner than 1px. The light color also helps with supporting this thinner look.
+        square.style.borderTop = "1px solid rgb(160,160,255)";
+        square.style.borderLeft = "1px solid rgb(160,160,255)";
+
+        gridContainer.style.borderRight = "1px solid rgb(160,160,255)";
+        gridContainer.style.borderBottom = "1px solid rgb(160,160,255)";
+
         square.style.display = "flex";
         square.style.flexWrap = "wrap";
         square.style.flex = "0 0 auto";
@@ -36,7 +43,9 @@ function createGrid (resolution) {
         
         square.style.padding = `${(300 / resolution) - 1}px`;
         square.style.boxSizing = "border-box";
-        
+
+
+
         gridContainer.appendChild(square);
     };
 
@@ -49,7 +58,7 @@ function createGrid (resolution) {
     
     // And because of the properties of the number 1 with various mathematical operations, a separate condition is needed for any other number that is submitted as resolution input that is not 1 as for example 2x2, 8x8, 7x7, 32x32, 64x64, etc..
     
-    // So, with this in mind, an if condition is set in place, where the first condition was mentioned before and the else statement sets the min and max width and height to an equation equal to ((baseline resolution parameter / resolution received from the user). 
+    // So, with this in mind, an if condition is set in place, where the first condition was mentioned before and the else statement sets the min and max width and height to an equation equal to ((baseline resolution parameter - 1) / resolution received from the user). 
     
     // The explanation for this is that when the user inputs a bigger pixel by pixel grid, the value of the resulting px by px grid is the same as multiplying a grid of 1x1 by that resolution input from the user, so for example:
     
@@ -57,20 +66,18 @@ function createGrid (resolution) {
     
     // The problem with this is that if "security" measures are not set in place, the grid will be distorted, causing several grid cells to be displayed out of place, ruining the grid.
     
-    // So, to solve this caveat, the proportions are set to the division mentioned earlier, thus essentially setting the proportions of the container to a min/max percentage of the page. 
+    // So, to solve this caveat, the proportions are set to the division mentioned earlier, thus essentially setting the proportions of the container to a min/max percentage of the page. The + 1 accounts for small percentage changes that are needed, as results with dividing 100% are not exact.
     if (resolution === 1) {
         gridContainer.style.minWidth = `${resBaseline}%`;
         gridContainer.style.maxWidth = `${resBaseline}%`;
         gridContainer.style.minHeight = `${resBaseline}%`;
         gridContainer.style.maxHeight = `${resBaseline}%`;
     } else {
-        gridContainer.style.minWidth = `${(resBaseline / resolution)}%`;
-        gridContainer.style.maxWidth = `${(resBaseline / resolution)}%`;
-        gridContainer.style.minHeight = `${(resBaseline / resolution)}%`;
-        gridContainer.style.maxHeight = `${(resBaseline / resolution)}%`;
+        gridContainer.style.minWidth = `${((resBaseline + 1) / resolution)}%`;
+        gridContainer.style.maxWidth = `${((resBaseline + 1) / resolution)}%`;
     }
 
     
 };
 
-createGrid(64);
+createGrid(32);
