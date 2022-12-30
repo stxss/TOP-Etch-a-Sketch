@@ -23,7 +23,13 @@ gridContainer.style.flex = "0 0";
 
 const square = document.createElement("div");
 
+
 function createGrid (resolution) {
+
+    gridContainer.addEventListener('mousedown', function (e) {
+        e.preventDefault()
+    })
+
     for (let i = 0; i < resolution ** 2; i++) {
         const square = document.createElement("div");
         square.classList.add("square");
@@ -46,9 +52,10 @@ function createGrid (resolution) {
         square.style.padding = `${(300 / resolution) - 1}px`;
         square.style.boxSizing = "border-box";
 
-
-
         gridContainer.appendChild(square);
+
+        square.addEventListener('mouseover', mClickDown)
+        square.addEventListener('mousedown', mClickDown)
     };
 
     // The objective of the next lines of code, is to implement the ability of the grid container to be the same size, independent of the zoom the user has set in their browser, be it 25%, be it 500% (on google chrome those seem to be the default min and max zoom). These lines of code are complementary to the lines 17-21, where the gridContainer styles are set to - position: relative; display: flex; flex-wrap: wrap; flex: 0 0;
@@ -81,27 +88,27 @@ function createGrid (resolution) {
     } else {
         gridContainer.style.minWidth = `${((resBaseline + 1) / resolution) - (borderCorrection/resolution * 125)}%`;
     }
-
-
 };
 
-
+// If the user is just hovering
 function mHover() {
     const statusChecker = document.querySelectorAll("div .square");
 
     statusChecker.forEach((square) => {
     
         square.addEventListener("mouseover", () => {
-            console.log("hovering");
             square.style.backgroundColor = "black";
         });
     });
 };
 
-
-
+function mClickDown(e) {
+    if (e.buttons > 0) {
+        this.style.backgroundColor = "black";
+    };
+};
 
 createGrid(32);
-mClickDown();
 // mHover();
+mClickDown();
 
