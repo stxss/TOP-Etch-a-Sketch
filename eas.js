@@ -21,6 +21,7 @@ gridContainer.style.justifyContent = "center";
 gridContainer.style.flexWrap = "wrap";
 gridContainer.style.flex = "0 0";
 
+const square = document.createElement("div");
 
 function createGrid (resolution) {
     for (let i = 0; i < resolution ** 2; i++) {
@@ -28,11 +29,12 @@ function createGrid (resolution) {
         square.classList.add("square");
 
         // Giving the squares only the top left borders and the grid container (the big box), the right and bottom, the effect of the borders "compounding" and creating a thicker look is avoided. So basically this is a way of creating thinner borders, sort of bypassing the inability to create borders that are thinner than 1px. The light color also helps with supporting this thinner look.
-        square.style.borderTop = "1px solid rgb(160,160,255)";
-        square.style.borderLeft = "1px solid rgb(160,160,255)";
 
-        gridContainer.style.borderRight = "1px solid rgb(160,160,255)";
-        gridContainer.style.borderBottom = "1px solid rgb(160,160,255)";
+        square.style.borderTop = "1px solid rgb(235, 235, 235)";
+        square.style.borderLeft = "1px solid rgb(235, 235, 235)";
+
+        gridContainer.style.borderRight = "1px solid rgb(235, 235, 235)";
+        gridContainer.style.borderBottom = "1px solid rgb(235, 235, 235)";
 
         square.style.display = "flex";
         square.style.flexWrap = "wrap";
@@ -80,8 +82,26 @@ function createGrid (resolution) {
         gridContainer.style.minWidth = `${((resBaseline + 1) / resolution) - (borderCorrection/resolution * 125)}%`;
     }
 
-    
+
 };
 
-createGrid(15);
+
+function mHover() {
+    const statusChecker = document.querySelectorAll("div .square");
+
+    statusChecker.forEach((square) => {
+    
+        square.addEventListener("mouseover", () => {
+            console.log("hovering");
+            square.style.backgroundColor = "black";
+        });
+    });
+};
+
+
+
+
+createGrid(32);
+mClickDown();
+// mHover();
 
