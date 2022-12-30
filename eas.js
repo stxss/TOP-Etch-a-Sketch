@@ -58,7 +58,7 @@ function createGrid (resolution) {
     
     // And because of the properties of the number 1 with various mathematical operations, a separate condition is needed for any other number that is submitted as resolution input that is not 1 as for example 2x2, 8x8, 7x7, 32x32, 64x64, etc..
     
-    // So, with this in mind, an if condition is set in place, where the first condition was mentioned before and the else statement sets the min and max width and height to an equation equal to ((baseline resolution parameter - 1) / resolution received from the user). 
+    // So, with this in mind, an if condition is set in place, where the first condition was mentioned before and the else statement sets the min and max width and height to an equation equal to ((baseline resolution parameter + 1) / resolution received from the user). 
     
     // The explanation for this is that when the user inputs a bigger pixel by pixel grid, the value of the resulting px by px grid is the same as multiplying a grid of 1x1 by that resolution input from the user, so for example:
     
@@ -68,8 +68,8 @@ function createGrid (resolution) {
     
     // So, to solve this caveat, the proportions are set to the division mentioned earlier, thus essentially setting the proportions of the container to a min/max percentage of the page. The + 1 accounts for small percentage changes that are needed, as results with dividing 100% are not exact.
 
-    // This border correction is to subtract from the right side border of the grid without distorting the whole order of things. And the (borderCorrection/resolution * 101) just helps approximate the right border.
-    let borderCorrection = 0.009120000;
+    // This border correction is to subtract from the right side border of the grid without distorting the whole order of things. And the (borderCorrection/resolution * 125) just helps approximate the right border. And it was calculated via approximations and trial & error
+    let borderCorrection = 0.008000000;
     
     if (resolution === 1) {
         gridContainer.style.minWidth = `${resBaseline}%`;
@@ -77,11 +77,11 @@ function createGrid (resolution) {
         gridContainer.style.minHeight = `${resBaseline}%`;
         gridContainer.style.maxHeight = `${resBaseline}%`;
     } else {
-        gridContainer.style.minWidth = `${((resBaseline + 1) / resolution) - (borderCorrection/resolution * 101)}%`;
-        gridContainer.style.maxWidth = `${((resBaseline + 1) / resolution)}%`;
+        gridContainer.style.minWidth = `${((resBaseline + 1) / resolution) - (borderCorrection/resolution * 125)}%`;
     }
 
     
 };
 
-createGrid(64);
+createGrid(15);
+
