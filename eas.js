@@ -26,6 +26,7 @@ const square = document.createElement("div");
 
 function createGrid (resolution) {
 
+    // Preventing the visual "drop" cursor from appearing (happens sometimes when the user clicks on a colored line trying to color it over)
     gridContainer.addEventListener('mousedown', function (e) {
         e.preventDefault()
     })
@@ -54,6 +55,7 @@ function createGrid (resolution) {
 
         gridContainer.appendChild(square);
 
+        // Adding the listeners in the grid creation stage and not on mouse click ,this is crucial, as doing this outside of this, just makes it impossible to work properly (at least in my experience)
         square.addEventListener('mouseover', mClickDown)
         square.addEventListener('mousedown', mClickDown)
     };
@@ -102,6 +104,7 @@ function mHover() {
     });
 };
 
+// If any button is pressed, the user starts to draw on the grid.
 function mClickDown(e) {
     if (e.buttons > 0) {
         this.style.backgroundColor = "black";
