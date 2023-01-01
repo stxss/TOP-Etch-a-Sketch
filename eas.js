@@ -1,30 +1,30 @@
 // Selecting the body, which contains everything
 const body = document.querySelector("body");
 
-// Selecting the big container, which contains the grid and other elements
-const bigContainer = document.querySelector(".big-container");
+// Setting some properties for the body, such as turning into flex
+body.style.display = "flex";
+
+// Setting default colors for the background, the pen and the border colors 
+const DEFAULT_BG_COLOR = "rgb(255,255,255)";
+const DEFAULT_PEN_COLOR = "rgb(0,0,0)";
+const DEFAULT_BORDER_COLOR = "rgb(235, 235, 235)"
 
 // Selecting the container for the grid
 const gridContainer = document.querySelector(".grid-container");
 
-// Setting some properties for the body, such as turning into flex
-body.style.display = "flex";
-
-// Setting some properties for the big container, such as turning into flex and setting it's grow and shrink values to 0 so the is always the same size
-bigContainer.style.display = "flex";
-bigContainer.style.flex = "0 0 auto";
-
 // Setting the properties of the gridContainer, making it a flex container and setting it up to set its fixed proportions later
-gridContainer.style.position = "relative"
-gridContainer.style.display = "flex";
-gridContainer.style.justifyContent = "center";
-gridContainer.style.flexWrap = "wrap";
-gridContainer.style.flex = "0 0";
 
-const square = document.createElement("div");
+gridContainer.style.display = "grid";
+gridContainer.style.backgroundColor = DEFAULT_BG_COLOR;
 
+// Create a div for the grid itself
+let grid = document.createElement("div");
+grid.classList.add("grid")
+grid.style.display = "grid";
+gridContainer.appendChild(grid)
 
-function createGrid (resolution) {
+// Function for the grid creation
+function createGrid(resolution) {
 
     // Preventing the visual "drop" cursor from appearing (happens sometimes when the user clicks on a colored line trying to color it over)
     gridContainer.addEventListener('mousedown', function (e) {
@@ -32,105 +32,69 @@ function createGrid (resolution) {
     })
 
     for (let i = 0; i < resolution ** 2; i++) {
-        const square = document.createElement("div");
-        square.classList.add("square");
+        let square = document.createElement('div');
+        square.classList.add('square');
+        grid.style.gridTemplateColumns = `repeat(${resolution} ,1fr)`
+        grid.style.gridTemplateRows = `repeat(${resolution} ,1fr)`;
+
+        // Give the grid a 700px width and height independent of device
+        square.style.width = `${(700 / resolution)}px`;
+        square.style.height = `${(700 / resolution)}px`;
 
         // Giving the squares only the top left borders and the grid container (the big box), the right and bottom, the effect of the borders "compounding" and creating a thicker look is avoided. So basically this is a way of creating thinner borders, sort of bypassing the inability to create borders that are thinner than 1px. The light color also helps with supporting this thinner look.
+        square.style.borderTop = `1px solid ${DEFAULT_BORDER_COLOR}`;
+        square.style.borderLeft = `1px solid ${DEFAULT_BORDER_COLOR}`;
+        gridContainer.style.borderRight = `1px solid ${DEFAULT_BORDER_COLOR}`;
+        gridContainer.style.borderBottom = `1px solid ${DEFAULT_BORDER_COLOR}`;
 
-        square.style.borderTop = "1px solid rgb(235, 235, 235)";
-        square.style.borderLeft = "1px solid rgb(235, 235, 235)";
-
-        gridContainer.style.borderRight = "1px solid rgb(235, 235, 235)";
-        gridContainer.style.borderBottom = "1px solid rgb(235, 235, 235)";
-
-        square.style.display = "flex";
-        square.style.flexWrap = "wrap";
-        square.style.flex = "0 0 auto";
-
-        square.style.width = `${(300 / resolution) - 1}px`;
-        square.style.height = `${(300 / resolution) - 1}px`;
-        
-        square.style.padding = `${(300 / resolution) - 1}px`;
-        square.style.boxSizing = "border-box";
-
-        gridContainer.appendChild(square);
+        // Appending the squares to the container.
+        grid.appendChild(square);
 
         // Adding the listeners in the grid creation stage and not on mouse click ,this is crucial, as doing this outside of this, just makes it impossible to work properly (at least in my experience)
         square.addEventListener('mouseover', mClickDown)
         square.addEventListener('mousedown', mClickDown)
+      };
 
-        square.addEventListener('mouseover', prevHover)
-        square.addEventListener('mousedown', prevHover)
-    };
-
-    // The objective of the next lines of code, is to implement the ability of the grid container to be the same size, independent of the zoom the user has set in their browser, be it 25%, be it 500% (on google chrome those seem to be the default min and max zoom). These lines of code are complementary to the lines 17-21, where the gridContainer styles are set to - position: relative; display: flex; flex-wrap: wrap; flex: 0 0;
-
-    // Baseline for resolution of 1x1 squares (later will be in %)
-    let resBaseline = 100;
-
-    // If the resolution submitted by the user is 1x1, then just size the grid with the baseline.
-    
-    // And because of the properties of the number 1 with various mathematical operations, a separate condition is needed for any other number that is submitted as resolution input that is not 1 as for example 2x2, 8x8, 7x7, 32x32, 64x64, etc..
-    
-    // So, with this in mind, an if condition is set in place, where the first condition was mentioned before and the else statement sets the min and max width and height to an equation equal to ((baseline resolution parameter + 1) / resolution received from the user). 
-    
-    // The explanation for this is that when the user inputs a bigger pixel by pixel grid, the value of the resulting px by px grid is the same as multiplying a grid of 1x1 by that resolution input from the user, so for example:
-    
-    // User wants a 32x32 grid. This is the same as saying to the program that the 1x1 grid is multiplied by 32.
-    
-    // The problem with this is that if "security" measures are not set in place, the grid will be distorted, causing several grid cells to be displayed out of place, ruining the grid.
-    
-    // So, to solve this caveat, the proportions are set to the division mentioned earlier, thus essentially setting the proportions of the container to a min/max percentage of the page. The + 1 accounts for small percentage changes that are needed, as results with dividing 100% are not exact.
-
-    // This border correction is to subtract from the right side border of the grid without distorting the whole order of things. And the (borderCorrection/resolution * 125) just helps approximate the right border. And it was calculated via approximations and trial & error
-    let borderCorrection = 0.008000000;
-    
-    if (resolution === 1) {
-        gridContainer.style.minWidth = `${resBaseline}%`;
-        gridContainer.style.maxWidth = `${resBaseline}%`;
-        gridContainer.style.minHeight = `${resBaseline}%`;
-        gridContainer.style.maxHeight = `${resBaseline}%`;
-    } else {
-        gridContainer.style.minWidth = `${((resBaseline + 1) / resolution) - (borderCorrection/resolution * 125)}%`;
-    }
 };
 
-// If the user is just hovering
-function mHover() {
-    const statusChecker = document.querySelectorAll("div .square");
-
-    statusChecker.forEach((square) => {
-        square.addEventListener("mouseover", () => {
-            square.style.backgroundColor = "black";
-        });
-    });
-};
 
 // If any button is pressed, the user starts to draw on the grid.
 function mClickDown(e) {
     if (e.buttons > 0) {
         this.style.backgroundColor = "black";
+        this.classList.add("colored");
     };
 };
 
-// Add a hovering effect that acts as a trail for the mouse hover 
-function prevHover(e) {
-    const statusChecker = document.querySelectorAll("div .square");
-    if (e.buttons < 1 && square.style.backgroundColor === "") {
-        this.style.backgroundColor = "black";
-        this.style.transition = "background-color 0.2s ease-in";
-        setTimeout(() => {
-            this.style.backgroundColor = "white";
-            this.style.transition = "background-color 0.350s ease-out";
-        }, 70); 
-    };
-};
+// Function for the slider-grid generation
+let slider = document.querySelector("#slider");
+let output = document.querySelector("#output");
 
+// Showing the initial value
+output.textContent = slider.value; 
+
+let resolution = 16;
+// Updating the current slider value each time it is dragged 
+slider.oninput = function() {
+    output.innerHTML = this.value;
+    resolution = parseInt(this.value);
+    console.log(parseInt(resolution))
+    changeGrid(this.value)
+}
+
+// test this down here
+function changeGrid() {
+    const squares = document.querySelectorAll("div .square");
+    for (let square of squares) {
+        square.remove()
+    }
+    createGrid(resolution)
+}
 
 
 createGrid(16);
-// mHover();
-prevHover();
 mClickDown();
+
+
 
 
