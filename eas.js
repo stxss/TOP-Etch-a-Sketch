@@ -6,8 +6,20 @@ body.style.display = "flex";
 
 // Setting default colors for the background, the pen and the border colors 
 const DEFAULT_BG_COLOR = "rgb(255,255,255)";
-const DEFAULT_PEN_COLOR = "rgb(0,0,0)";
+let PEN_COLOR = "rgb(0,0,0)";
 const DEFAULT_BORDER_COLOR = "rgb(235, 235, 235)"
+
+// Creating the color selection buttons 
+let bgColorBtn = document.querySelector(".bg-color");
+let penColorBtn = document.querySelector(".pen-color");
+let borderColorBtn = document.querySelector(".border-color");
+
+// Creating the color pickers 
+let bgColorPick = document.querySelector(".bg-color-picker")
+let penColorPick = document.querySelector(".pen-color-picker")
+let borderColorPick = document.querySelector(".border-color-picker")
+
+
 
 // Selecting the container for the grid
 const gridContainer = document.querySelector(".grid-container");
@@ -61,7 +73,7 @@ function createGrid(resolution) {
 // If any button is pressed, the user starts to draw on the grid.
 function mClickDown(e) {
     if (e.buttons > 0) {
-        this.style.backgroundColor = "black";
+        this.style.backgroundColor = `${PEN_COLOR}`;
         this.classList.add("colored");
     };
 };
@@ -92,8 +104,45 @@ function changeGrid() {
 }
 
 
+// Picker pop up upon clicking the color choice button
+bgColorBtn.addEventListener("click", () => {
+    bgColorPick.click();
+})
+
+// Picker pop up upon clicking the color choice button
+penColorBtn.addEventListener("click", () => {
+    penColorPick.click();
+})
+
+// Picker pop up upon clicking the color choice button
+borderColorBtn.addEventListener("click", () => {
+    borderColorPick.click();
+})
+
+// Changing the color of the background according to the picked color
+bgColorPick.oninput = function () {
+    gridContainer.style.backgroundColor = bgColorPick.value;
+};
+
+// Changing the color of the pen according to the picked color
+penColorPick.oninput = function () {
+    PEN_COLOR = penColorPick.value;
+};
+
+// Changing the color of the border according to the picked color
+borderColorPick.oninput = function () {
+    let square = document.querySelectorAll(".grid .square")
+    square.forEach((square) => {
+        square.style.borderTop = `1px solid ${borderColorPick.value}`;
+        square.style.borderLeft = `1px solid ${borderColorPick.value}`;
+        gridContainer.style.borderRight = `1px solid ${borderColorPick.value}`;
+        gridContainer.style.borderBottom = `1px solid ${borderColorPick.value}`;
+    })
+};
+
+
+
 createGrid(16);
-mClickDown();
 
 
 
