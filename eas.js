@@ -58,6 +58,9 @@ function createGrid (resolution) {
         // Adding the listeners in the grid creation stage and not on mouse click ,this is crucial, as doing this outside of this, just makes it impossible to work properly (at least in my experience)
         square.addEventListener('mouseover', mClickDown)
         square.addEventListener('mousedown', mClickDown)
+
+        square.addEventListener('mouseover', prevHover)
+        square.addEventListener('mousedown', prevHover)
     };
 
     // The objective of the next lines of code, is to implement the ability of the grid container to be the same size, independent of the zoom the user has set in their browser, be it 25%, be it 500% (on google chrome those seem to be the default min and max zoom). These lines of code are complementary to the lines 17-21, where the gridContainer styles are set to - position: relative; display: flex; flex-wrap: wrap; flex: 0 0;
@@ -97,7 +100,6 @@ function mHover() {
     const statusChecker = document.querySelectorAll("div .square");
 
     statusChecker.forEach((square) => {
-    
         square.addEventListener("mouseover", () => {
             square.style.backgroundColor = "black";
         });
@@ -111,7 +113,24 @@ function mClickDown(e) {
     };
 };
 
-createGrid(32);
+// Add a hovering effect that acts as a trail for the mouse hover 
+function prevHover(e) {
+    const statusChecker = document.querySelectorAll("div .square");
+    if (e.buttons < 1 && square.style.backgroundColor === "") {
+        this.style.backgroundColor = "black";
+        this.style.transition = "background-color 0.2s ease-in";
+        setTimeout(() => {
+            this.style.backgroundColor = "white";
+            this.style.transition = "background-color 0.350s ease-out";
+        }, 70); 
+    };
+};
+
+
+
+createGrid(16);
 // mHover();
+prevHover();
 mClickDown();
+
 

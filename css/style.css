@@ -1,0 +1,17 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+body {
+    background-color: rgb(26, 27, 38);
+    color: white;
+}
+
+.slidecontainer {
+    position: absolute;
+    top: 700px;
+    left: 200px;
+}
+
