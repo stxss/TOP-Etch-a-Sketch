@@ -8,9 +8,27 @@
     <title>Etch-A-Sketch by @stxss</title>
 </head>
 <body>
-    <div class="big-container">
-        <div class="grid-container"></div>
+    <div class="grid-container"></div>
+    <div class="slidecontainer">
+        <input type="range" min="1" max="100" value="16" class="slider" id="slider">
+        <div id="output"></div>
     </div>
+    <button class="bg-color">
+        <input type="color" id="color-picker" class="bg-color-picker">
+    </button>
+    
+    <button class="pen-color">
+        <input type="color" id="color-picker" class="pen-color-picker">
+    </button>
+    
+
+    <button class="border-color">
+        <input type="color" id="color-picker" class="border-color-picker">
+    </button>
+    
+
+    <button class="toggle-grid">Toggle Grid Lines</button>
+    
 </body>
 </html>
 <script src="./eas.js"></script>
