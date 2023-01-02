@@ -27,8 +27,9 @@ let borderLineToggle = document.querySelector(".toggle-grid");
 let eraser = document.querySelector(".eraser");
 let eraserStatus = false;
 
-// Selecting the rainbow button
+// Selecting the rainbow button and state to false (not active)
 let rainbow = document.querySelector(".rainbow");
+let rainbowStatus = false;
 
 // Selecting the lighten button
 let lighten = document.querySelector(".lighten");
@@ -251,7 +252,6 @@ eraser.addEventListener(("click"), () => {
         square.forEach((square) => {
             square.removeEventListener("mouseover", mClickDown);
             square.removeEventListener("mousedown", mClickDown);
-
             square.addEventListener("mouseover", mErase);
             square.addEventListener("mousedown", mErase);
         })
@@ -274,5 +274,44 @@ function mErase(e) {
         this.classList.remove("colored");
     }
 }
+
+
+rainbow.addEventListener(("click"), () => {
+    let square = document.querySelectorAll(".grid .square");
+    
+    // Here, the flag for the activation of the rainbow is set to the opposite of what it was before. So if it was true, it's set to false. If it's false, it is set to a new boolean of true.
+    rainbowStatus = !rainbowStatus;
+    
+    // If the rainbowStatus is true, remove the event listeners for the mClickDown, which allow to draw on the canvas, and adding the event listeners to the mRainbow function, which allow for a random color on each pixel coloring. Else (aka if it's false, remove the listeners for the rainbow function and re-add the listeners for the drawing function back)
+    if (rainbowStatus) {
+        square.forEach((square) => {
+            square.removeEventListener("mouseover", mClickDown);
+            square.removeEventListener("mousedown", mClickDown);
+            square.addEventListener("mouseover", mRainbow);
+            square.addEventListener("mousedown", mRainbow);
+        })
+    } else {
+        square.forEach((square) => {
+            square.removeEventListener("mouseover", mRainbow);
+            square.removeEventListener("mousedown", mRainbow);
+            square.addEventListener("mouseover", mClickDown);
+            square.addEventListener("mousedown", mClickDown);
+        })
+    };
+    console.log(rainbowStatus)
+});
+
+// Function for the rainbow button
+// Makes each pass of the mouse change the pixel color to a completely random RGB value
+function mRainbow(e) {
+    let randValR = Math.floor(Math.random() * (255 - 0 + 1)) + 0;
+    let randValG = Math.floor(Math.random() * (255 - 0 + 1)) + 0;
+    let randValB = Math.floor(Math.random() * (255 - 0 + 1)) + 0;
+
+    if (e.buttons > 0) {
+        this.style.backgroundColor = `rgb(${randValR}, ${randValG}, ${randValB})`;
+    }
+};
+
 
 createGrid(16);
