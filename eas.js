@@ -9,6 +9,7 @@ const DEFAULT_BG_COLOR = "rgb(255,255,255)";
 let PEN_COLOR = "rgb(0,0,0)";
 const DEFAULT_BORDER_COLOR = "rgb(235, 235, 235)";
 
+
 // Selecting the color selection buttons
 let bgColorBtn = document.querySelector(".bg-color");
 let penColorBtn = document.querySelector(".pen-color");
@@ -22,8 +23,9 @@ let borderColorPick = document.querySelector(".border-color-picker");
 // Selecting the Grid Lines toggle
 let borderLineToggle = document.querySelector(".toggle-grid");
 
-// Selecting the eraser button
+// Selecting the eraser button and state to false (not active)
 let eraser = document.querySelector(".eraser");
+let eraserStatus = false;
 
 // Selecting the rainbow button
 let rainbow = document.querySelector(".rainbow");
@@ -116,6 +118,7 @@ function changeGrid() {
     for (let square of squares) {
         square.remove();
     }
+
     createGrid(resolution);
 }
 
@@ -198,18 +201,28 @@ borderLineToggle.addEventListener("click", () => {
 // Upon click, the class "colored" for each square is removed and the existing colors are replaced by the background color value, with a smooth pleasant transition of 1 second. Upon this 1 second, a seamless new grid is regenerated, so no errors with the previous colors/functions occurs.
 clearGrid.addEventListener("click", () => {
     let square = document.querySelectorAll(".grid .square");
+    let form = document.querySelector(".color-buttons-form")
     suspendListeners();
 
     square.forEach((square) => {
         if (square.classList.contains("colored")) {
             square.classList.remove("colored");
-            square.style.transition = "background-color 1.2s";
+            square.style.transition = "background-color 1s";
             square.style.backgroundColor = bgColorPick.value;
         }
     });
+
+    // On clearing the grid, reset the status of the eraser to false, deactivating it again
+    function resetEraser() {
+        eraserStatus = false;
+    }
+    resetEraser();
+
     setTimeout(() => {
         changeGrid(resolution);
-    }, 1200);
+        form.reset()
+    }, 1000);
+
 });
 
 // Create a function that suspends the ability to draw on the grid for the duration of the clearing effect when the user clears the grid
@@ -224,7 +237,42 @@ function suspendListeners() {
     setTimeout(function () {
         suspended = false;
     }, 1200);
-}
+};
 
+// Event listener to toggle eraser. At the start of the code, the eraserStatus is set to false, so the eraser isn't active. Upon clicking, the eraser mode is toggled, allowing the user to delete the desired colors/pixels.
+eraser.addEventListener(("click"), () => {
+    let square = document.querySelectorAll(".grid .square");
+    
+    // Here, the flag for the activation of the eraser is set to the opposite of what it was before. So if it was true, it's set to false. If it's false, it is set to a new boolean of true.
+    eraserStatus = !eraserStatus;
+    
+    // If the eraserStatus is true, remove the event listeners for the mClickDown, which allow to draw on the canvas, and adding the event listeners to the mErase function, which allow for the deletion of the pixel colors. Else (aka if it's false, remove the listeners for the eraser function and re-add the listeners for the drawing function back)
+    if (eraserStatus) {
+        square.forEach((square) => {
+            square.removeEventListener("mouseover", mClickDown);
+            square.removeEventListener("mousedown", mClickDown);
+
+            square.addEventListener("mouseover", mErase);
+            square.addEventListener("mousedown", mErase);
+        })
+    } else {
+        square.forEach((square) => {
+            square.removeEventListener("mouseover", mErase);
+            square.removeEventListener("mousedown", mErase);
+            square.addEventListener("mouseover", mClickDown);
+            square.addEventListener("mousedown", mClickDown);
+        })
+    }
+});
+
+
+// Function for the erase button. 
+// Acts in a similar way to mClickDown, but instead of painting, it resets the color to the initial background value, effectively deleting the color "on top" and as such, simulating the effect of an eraser.
+function mErase(e) {
+    if (e.buttons > 0) {
+        this.style.backgroundColor = `initial`;
+        this.classList.remove("colored");
+    }
+}
 
 createGrid(16);
