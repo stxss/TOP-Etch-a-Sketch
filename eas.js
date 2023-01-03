@@ -226,12 +226,12 @@ let slider = document.querySelector("#slider");
 let output = document.querySelector("#output");
 
 // Showing the initial value
-output.textContent = `${slider.value} x ${slider.value}`;
+output.textContent = `Grid size: ${slider.value} x ${slider.value}`;
 
 // Slider and grid update
 slider.oninput = function () {
     // Updating the appearance of the slider
-    output.textContent = `${this.value} x ${this.value}`;
+    output.textContent = `Grid size: ${this.value} x ${this.value}`;
     resolution = parseInt(this.value);
     changeGrid();
 };
