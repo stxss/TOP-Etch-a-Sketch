@@ -203,3 +203,16 @@ button.toggle-grid {
     box-shadow: 0;
 } 
 
+
+button.toggle-grid:active {
+    background-color: #565f89;
+} 
+
+button.clear{
+    transition: background-color 1.5s;
+    transition-timing-function: "ease";
+}
+
+button.clear:active {
+    background-color: #565f89;
+}
