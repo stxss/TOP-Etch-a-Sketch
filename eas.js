@@ -329,6 +329,17 @@ clearGrid.addEventListener("click", () => {
     let form = document.querySelector(".color-buttons-form");
     suspendListeners();
 
+    clearGrid.style.transition = "background-color 1.5s";
+    clearGrid.style.backgroundColor = "#565f89";
+    setTimeout(() => {
+        clearGrid.style.transition = "background-color 0.1s";
+        clearGrid.style.backgroundColor = "";
+        lighten.style.backgroundColor = "";
+        eraser.style.backgroundColor = "";
+        rainbow.style.backgroundColor = "";
+        darken.style.backgroundColor = "";
+    }, 100);
+
     square.forEach((square) => {
         if (
             square.classList.contains("colored") ||
@@ -385,8 +396,13 @@ eraser.addEventListener("click", () => {
     // Upon toggling, the drawing mode is set to eraser. When toggling again, the mode is set back to draw
     if (eraserStatus) {
         drawingMode = "eraser";
+        eraser.style.backgroundColor = "#565f89";
+        rainbow.style.backgroundColor = "";
+        lighten.style.backgroundColor = "";
+        darken.style.backgroundColor = "";
     } else {
         drawingMode = "draw";
+        eraser.style.backgroundColor = "";
     }
 });
 
@@ -397,8 +413,13 @@ rainbow.addEventListener("click", () => {
     // Upon toggling, the drawing mode is set to rainbow. When toggling again, the mode is set back to draw
     if (rainbowStatus) {
         drawingMode = "rainbow";
+        rainbow.style.backgroundColor = "#565f89";
+        eraser.style.backgroundColor = "";
+        lighten.style.backgroundColor = "";
+        darken.style.backgroundColor = "";
     } else {
         drawingMode = "draw";
+        rainbow.style.backgroundColor = "";
     }
 });
 
@@ -409,8 +430,13 @@ lighten.addEventListener("click", () => {
     // Upon toggling, the drawing mode is set to lighten. When toggling again, the mode is set back to draw
     if (lightenStatus) {
         drawingMode = "lighten";
+        lighten.style.backgroundColor = "#565f89";
+        eraser.style.backgroundColor = "";
+        rainbow.style.backgroundColor = "";
+        darken.style.backgroundColor = "";
     } else {
         drawingMode = "draw";
+        lighten.style.backgroundColor = "";
     }
 });
 
@@ -421,8 +447,13 @@ darken.addEventListener("click", () => {
     // Upon toggling, the drawing mode is set to darken. When toggling again, the mode is set back to draw
     if (darkenStatus) {
         drawingMode = "darken";
+        darken.style.backgroundColor = "#565f89";
+        lighten.style.backgroundColor = "";
+        eraser.style.backgroundColor = "";
+        rainbow.style.backgroundColor = "";
     } else {
         drawingMode = "draw";
+        darken.style.backgroundColor = "";
     }
 });
 
