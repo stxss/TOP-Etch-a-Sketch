@@ -4,36 +4,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/normalize.css">
     <link rel="stylesheet" href="./css/style.css">
     <title>Etch-A-Sketch by @stxss</title>
 </head>
 <body>
-    <div class="grid-container"></div>
-    <div class="slidecontainer">
-        <input type="range" min="1" max="100" value="16" class="slider" id="slider">
-        <div id="output"></div>
+    <div class="grid-wrapper">
+
+        <div class="grid-container"></div>
     </div>
-    
-        <button class="bg-color">
-            <input type="color" id="color-picker" class="bg-color-picker" value="#ffffff">
-        </button>
+    <div class="button-container">
+        <div class="picker-container">
+            <button class="bg-color">
+                <input type="color" id="color-picker" class="bg-color-picker" value="#ffffff">
+                <p class="picker-name">Background color</p>
+            </button>
 
-        <button class="pen-color">
-            <input type="color" id="color-picker" class="pen-color-picker">
-        </button>
 
-    <form class="color-buttons-form">
-        <button class="border-color">
-            <input type="color" id="color-picker" class="border-color-picker" value="#ebebeb">
-        </button>
-    </form>
+            <button class="pen-color">
+                <input type="color" id="color-picker" class="pen-color-picker">
+                <p class="picker-name">Pen color</p>
+            </button>
 
-        <button class="toggle-grid">Toggle Grid Lines</button>
-        <button class="eraser">Eraser</button>
-        <button class="rainbow">Rainbow</button>
-        <button class="lighten">Lighten</button>
-        <button class="darken">Darken</button>
-        <button class="clear">Clear Grid</button>
+
+        <form class="color-buttons-form">
+            <button class="border-color">
+                <input type="color" id="color-picker" class="border-color-picker" value="#ebebeb">
+                <p class="picker-name">Grid borders </p>
+            </button>
+        </form>
+    </div>
+        <div class="slidecontainer">
+            <input type="range" min="1" max="100" value="16" class="slider" id="slider">
+            <div id="output"></div>
+        </div>
+
+
+            <button class="toggle-grid">Toggle Grid Lines</button>
+
+            <button class="eraser">Eraser</button>
+            <button class="rainbow">Rainbow</button>
+            <button class="lighten">Lighten</button>
+            <button class="darken">Darken</button>
+            <button class="clear">Clear Grid</button>
+    </div>
 
 </body>
 </html>
