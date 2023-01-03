@@ -4,13 +4,202 @@
     padding: 0;
   }
 
+html,
 body {
-    background-color: rgb(26, 27, 38);
-    color: white;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1b26;
+    color: #7aa2f7;
+    font-family: roboto;
 }
 
-.slidecontainer {
+.grid-wrapper {
+    border-radius: 20px;
+    height: 750px;
+    width: 750px;
+    display: flex;
     position: absolute;
-    top: 700px;
-    left: 200px;
+    justify-content: center;
+    align-content: center;
+    left: 45%;
+    top: 7.5%;
+    background: hsla(349, 89%, 72%, 1);
+
+    background: radial-gradient(circle, hsla(349, 89%, 72%, 1) 0%, hsla(348, 57%, 62%, 1) 0%, hsla(346, 33%, 49%, 1) 0%, hsla(342, 30%, 37%, 1) 0%, hsla(235, 19%, 13%, 1) 130%);
+    
+    background: -moz-radial-gradient(circle, hsla(349, 89%, 72%, 1) 0%, hsla(348, 57%, 62%, 1) 0%, hsla(346, 33%, 49%, 1) 0%, hsla(342, 30%, 37%, 1) 0%, hsla(235, 19%, 13%, 1) 130%);
+    
+    background: -webkit-radial-gradient(circle, hsla(349, 89%, 72%, 1) 0%, hsla(348, 57%, 62%, 1) 0%, hsla(346, 33%, 49%, 1) 0%, hsla(342, 30%, 37%, 1) 0%, hsla(235, 19%, 13%, 1) 130%);
+    
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#F7768E", endColorstr="#D6687E", GradientType=1 );
 }
+.grid-container {
+    display: grid;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    width: 700px;
+    height: 700px;
+    top: 3%;
+    left: 3%;
+}
+
+
+.slidecontainer {
+    background-color: #1a1b26;
+    padding: 20px 0px;
+    width: 260px;
+}
+.slidecontainer #output {
+    background-color: #1a1b26;
+    margin-bottom: 0px;
+    margin-top: 18px;
+    margin-left: 0;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 2px;
+    border-radius: 5px;
+    background: #9aa5ce;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #c0caf5;
+    cursor: pointer;
+}
+  
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #c0caf5;
+    cursor: pointer;
+}
+
+.button-container {
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: #7aa2f7;
+    font-weight: 700;
+    font-size: 18px;
+    
+    background-color: #1a1b26;
+    border: 1px solid #f7768e;
+    border-radius: 12px;
+    padding: 5px 15px;
+    width: 30%;
+    margin-bottom: 12px;
+    margin-top: 12px;
+    height: 700px;
+    position: absolute;
+    top: 9%;
+    left: 10%;
+}
+
+.picker-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 0px;
+}
+
+button.bg-color,
+button.pen-color,
+button.border-color {
+    display: flex;
+    padding-left: 10px;
+    margin: 5px;
+    align-items: center;
+    justify-content: space-around;
+    border: 0;
+    margin: 20px;
+    background-color: #1a1b26;
+    color: #7aa2f7;
+    border: 1px solid #f7768e;
+    height: 10px;
+    gap: 20px;
+}
+
+input[type="color"] {
+    /* Change the width and height of the picker */
+    width: 70px;
+    height: 30px;
+  
+    /* Change the border and border radius */
+    border: 2px solid #f7768e;
+    border-radius: 4px;
+    
+    /* Change the cursor */
+    cursor: pointer;
+  }
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+
+
+}
+input[type="color"]::-webkit-color-swatch {
+    padding: 0;
+    border: 1px solid #f7768e;
+    border-radius: 3px;
+}
+
+
+#color-picker {
+    border: 0;
+    box-shadow: 0;
+    padding: 0px;
+}
+
+button.bg-color {
+    border: 0;
+}
+
+button.pen-color {
+    border: 0;
+}
+
+button.border-color {
+    border: 0;
+}
+
+
+button.eraser,
+button.rainbow,
+button.lighten,
+button.darken,
+button.clear,
+button.toggle-grid {
+    background-color: #24283b;
+    color: #7aa2f7;
+    border: 1px solid #f7768e;
+    border-radius: 12px;
+    padding: 15px 15px;
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    box-shadow: 0;
+} 
+
