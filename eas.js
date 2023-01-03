@@ -332,13 +332,13 @@ clearGrid.addEventListener("click", () => {
     clearGrid.style.transition = "background-color 1.5s";
     clearGrid.style.backgroundColor = "#565f89";
     setTimeout(() => {
-        clearGrid.style.transition = "background-color 0.1s";
+        clearGrid.style.transition = "background-color 0.5s";
         clearGrid.style.backgroundColor = "";
         lighten.style.backgroundColor = "";
         eraser.style.backgroundColor = "";
         rainbow.style.backgroundColor = "";
         darken.style.backgroundColor = "";
-    }, 100);
+    }, 1500);
 
     square.forEach((square) => {
         if (
